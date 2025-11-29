@@ -474,6 +474,11 @@ namespace dxvk {
           //vulkanData.m_nFormat = VK_FORMAT_B8G8R8A8_UNORM; 
           vulkanData.m_nFormat = texture->GetCommonTexture()->GetFormatMapping().FormatColor;
           vulkanData.m_nSampleCount = (int)multiSampleType;
+          
+          IDirect3DSurface9* pSurface = nullptr;
+          HRESULT hr = texture->GetSurfaceLevel(0, &pSurface);
+          GetVRSystem()->m_SharedTextureHolder[index].m_pRenderTarget = pSurface;
+          pSurface->Release();
 
           GetVRSystem()->StoreSharedTexture(index, &vulkanData);
       }
@@ -1286,6 +1291,9 @@ namespace dxvk {
       return D3DERR_INVALIDCALL;
 
     if (RenderTargetIndex == 0) {
+
+        m_pRenderTarget = pRenderTarget;
+
       auto rtSize = rt->GetSurfaceExtent();
 
       D3DVIEWPORT9 viewport;

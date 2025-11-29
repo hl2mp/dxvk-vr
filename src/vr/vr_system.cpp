@@ -27,6 +27,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 	return TRUE;
 }
 
+IDirect3DSurface9* m_pRenderTarget;
+
 BaseVRSystem::BaseVRSystem() :
 	m_initialised(false),
 	m_nRenderWidth(-1),
@@ -78,7 +80,6 @@ void BaseVRSystem::PostPresent(dxvk::D3D9DeviceEx* pD3D9)
 	if (!m_initialised)
 		return;
 
-	//Wait for the work to finish
 	//IDirect3DQuery9* pEventQuery = nullptr;
 	//pD3D9->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);
 	//if (pEventQuery != nullptr)
@@ -86,7 +87,7 @@ void BaseVRSystem::PostPresent(dxvk::D3D9DeviceEx* pD3D9)
 	//	pEventQuery->Issue(D3DISSUE_END);
 
 	//	while (pEventQuery->GetData(nullptr, 0, D3DGETDATA_FLUSH) != S_OK);
-	//		pEventQuery->Release();
+	//	pEventQuery->Release();
 	//}
 
 	pD3D9->Flush();
